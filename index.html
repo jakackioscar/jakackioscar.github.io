@@ -192,7 +192,7 @@
     .skillset > div { grid-template-columns: 1fr; gap: 0.1rem; }
   }
 
-  /* ── the vape block ── */
+  /* -- the vape block -- */
   .vape { margin: 2.9rem 0 0; }
   .vape h2 {
     margin: 0 0 0.6rem;
@@ -227,7 +227,7 @@
     100% { box-shadow: 0 0 0 0 rgba(78,201,138,0); }
   }
 
-  /* ── entries ── */
+  /* -- entries -- */
   .entry {
     padding: 1.6rem 0;
     border-bottom: 1px solid var(--rule);
@@ -287,14 +287,14 @@
 
   <nav>
     <a href="#home"       data-tab="home">Home</a>
-    <a href="#resume"     data-tab="resume">Résumé</a>
+    <a href="#resume"     data-tab="resume">Resume</a>
     <a href="#experience" data-tab="experience">Experience</a>
     <a href="#projects"   data-tab="projects">Projects</a>
     <a href="#publications" data-tab="publications">Publications</a>
     <a href="#socials"    data-tab="socials">Socials</a>
   </nav>
 
-  <!-- ── HOME ─────────────────────────────────────────── -->
+  <!-- HOME -->
   <section class="panel" id="home" tabindex="-1">
     <p class="lead">
       I'm a junior at Northwestern studying Electrical Engineering. I work
@@ -322,11 +322,11 @@
 
   </section>
 
-  <!-- ── EXPERIENCE ───────────────────────────────────── -->
+  <!-- EXPERIENCE -->
   <section class="panel" id="experience" tabindex="-1">
     <div class="entry">
-      <h3>Silicon/RF Intern · Stealth startup</h3>
-      <p class="when">San Diego · Jun 2026 - Sept 2026</p>
+      <h3>Silicon/RF Intern, Stealth startup</h3>
+      <p class="when">San Diego, Jun 2026 - Sept 2026</p>
       <p>
         RF and embedded work for an IoT hardware startup. Built Python tooling
         for hardware bring-up testing, including a GPS post-processing pipeline
@@ -338,8 +338,8 @@
     </div>
 
     <div class="entry">
-      <h3>Undergraduate Researcher · Embodied Systems Lab</h3>
-      <p class="when">Northwestern · Mar 2026 - present</p>
+      <h3>Undergraduate Researcher, Embodied Systems Lab</h3>
+      <p class="when">Northwestern, Mar 2026 - present</p>
       <p>
         A biosignal acquisition system built into smart glasses, detecting
         heart rate and emotional state from wearable sensors. I designed the
@@ -349,8 +349,8 @@
     </div>
 
     <div class="entry">
-      <h3>Electrical Team Member · Northwestern Solar Car</h3>
-      <p class="when">Evanston · Jan 2026 - present</p>
+      <h3>Electrical Team Member, Northwestern Solar Car</h3>
+      <p class="when">Evanston, Jan 2026 - present</p>
       <p>
         Redesigned the battery management system with a teammate, moving to a
         passive cell balancing architecture. Measurably improved cell voltage
@@ -359,8 +359,8 @@
     </div>
 
     <div class="entry">
-      <h3>Research Assistant · Querrey Simpson Institute for Bioelectronics</h3>
-      <p class="when">Northwestern · Sep 2025 - Jan 2026</p>
+      <h3>Research Assistant, Querrey Simpson Institute for Bioelectronics</h3>
+      <p class="when">Northwestern, Sep 2025 - Jan 2026</p>
       <p>
         Worked on wearable devices that collect vitals from newly transplanted
         tissue in infants and adults. Improved PCB and enclosure designs in
@@ -369,8 +369,8 @@
     </div>
 
     <div class="entry">
-      <h3>Undergraduate Researcher · Pleshko Lab, Temple University</h3>
-      <p class="when">Philadelphia · Dec 2024 - Sep 2025</p>
+      <h3>Undergraduate Researcher, Pleshko Lab, Temple University</h3>
+      <p class="when">Philadelphia, Dec 2024 - Sep 2025</p>
       <p>
         Used O-PTIR spectroscopy to study bone composition, measuring how
         sample orientation affects molecular vibration detection so O-PTIR data
@@ -379,11 +379,11 @@
     </div>
   </section>
 
-  <!-- ── PROJECTS ─────────────────────────────────────── -->
+  <!-- PROJECTS -->
   <section class="panel" id="projects" tabindex="-1">
     <div class="entry">
       <h3>Music genre classifier on an FPGA</h3>
-      <p class="when">Verilog · Spartan-7 · Vivado</p>
+      <p class="when">Verilog, Spartan-7, Vivado</p>
       <p>
         Audio goes in a line-in, the genre comes out on an OLED. A 1024-point
         FFT, a 26-band mel filterbank and a quantised neural net, all in
@@ -394,7 +394,7 @@
       <p>
         The hardest bug wasn't in the design. The board has 12 MHz and 100 MHz
         oscillators, and I'd mapped the wrong one in the constraints file, so
-        the real sample rate was 8× off and every frequency landed in the wrong
+        the real sample rate was 8x off and every frequency landed in the wrong
         band. Simulation never caught it, because a testbench invents its own
         clock, and timing never caught it either.
       </p>
@@ -405,7 +405,7 @@
 
     <div class="entry">
       <h3>Web server on a disposable vape</h3>
-      <p class="when">C · Cortex-M0+ · OpenOCD · 32 KB flash</p>
+      <p class="when">C, Cortex-M0+, OpenOCD, 32 KB flash</p>
       <p>
         A PY32F030 pulled out of a vape, serving HTTP with no network hardware.
         A uIP stack speaking SLIP over ARM semihosting, tunnelled through SWD
@@ -425,7 +425,7 @@
 
     <div class="entry">
       <h3>Attenda Health (Grand Prize - Second Place Overall)</h3>
-      <p class="when">WildHacks 2026 · Next.js, React, Supabase</p>
+      <p class="when">WildHacks 2026, Next.js, React, Supabase</p>
       <p>
         I pitched this one to my team after volunteering at a hospital, where
         every patient request funnelled through a single central desk. Nurses
@@ -447,7 +447,7 @@
     </div>
   </section>
 
-  <!-- ── PUBLICATIONS ─────────────────────────────────── -->
+  <!-- PUBLICATIONS -->
   <section class="panel" id="publications" tabindex="-1">
 
     <!-- ===================================================================
@@ -480,7 +480,7 @@
     </p>
   </section>
 
-  <!-- ── RÉSUMÉ ───────────────────────────────────────── -->
+  <!-- RESUME -->
   <section class="panel" id="resume" tabindex="-1">
     <p><a href="resume.pdf" download>Download PDF</a></p>
     <object class="pdf" data="resume.pdf" type="application/pdf">
@@ -524,7 +524,7 @@
     </dl>
   </section>
 
-  <!-- ── SOCIALS ──────────────────────────────────────── -->
+  <!-- SOCIALS -->
   <section class="panel" id="socials" tabindex="-1">
     <div class="contact">
       <div><span>School</span><a href="mailto:oscarjakacki2028@u.northwestern.edu">oscarjakacki2028@u.northwestern.edu</a></div>
