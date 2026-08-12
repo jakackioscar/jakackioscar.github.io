@@ -1,0 +1,589 @@
+<title>Oscar Jakacki</title>
+
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg:      #fcfcfb;
+    --ink:     #17171a;
+    --soft:    #55555c;
+    --faint:   #8b8b93;
+    --rule:    #e6e6e3;
+    --link:    #1c5fd0;
+    --honey:   #9a5b06;
+    --honey-bg:rgba(196, 132, 26, 0.07);
+    --honey-ln:rgba(196, 132, 26, 0.22);
+    --live:    #12854f;
+    --mark:    #b45309;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+            "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101012; --ink: #efefed; --soft: #a6a6ab;
+      --faint: #76767d; --rule: #29292d; --link: #82abf7;
+      --honey: #e6ab55; --honey-bg: rgba(230, 171, 85, 0.08);
+      --honey-ln: rgba(230, 171, 85, 0.2);
+      --live: #4ec98a; --mark: #e0a04a;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #101012; --ink: #efefed; --soft: #a6a6ab;
+    --faint: #76767d; --rule: #29292d; --link: #82abf7;
+    --honey: #e6ab55; --honey-bg: rgba(230, 171, 85, 0.08);
+    --honey-ln: rgba(230, 171, 85, 0.2);
+    --live: #4ec98a; --mark: #e0a04a;
+  }
+  :root[data-theme="light"] {
+    --bg: #fcfcfb; --ink: #17171a; --soft: #55555c;
+    --faint: #8b8b93; --rule: #e6e6e3; --link: #1c5fd0;
+    --honey: #9a5b06; --honey-bg: rgba(196, 132, 26, 0.07);
+    --honey-ln: rgba(196, 132, 26, 0.22);
+    --live: #12854f; --mark: #b45309;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 1.09rem;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .page {
+    max-width: 41rem;
+    margin: 0 auto;
+    padding: clamp(3rem, 9vw, 5.5rem) clamp(1.35rem, 5vw, 2rem) 6rem;
+  }
+
+  a { color: var(--link); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  a:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; border-radius: 3px; }
+
+  h1 {
+    font-size: clamp(2.1rem, 7vw, 2.9rem);
+    font-weight: 700;
+    letter-spacing: -0.033em;
+    line-height: 1.08;
+    margin: 0 0 0.4rem;
+  }
+  .tagline {
+    color: var(--soft);
+    font-size: 1.09rem;
+    margin: 0;
+  }
+
+  header { margin-bottom: 2.5rem; }
+  .id {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+  .avatar, .avatar-ph {
+    width: 88px; height: 88px;
+    border-radius: 50%;
+    flex: none;
+    object-fit: cover;
+  }
+  .avatar { border: 1px solid var(--rule); }
+  .avatar-ph {
+    border: 1px dashed var(--rule);
+    display: grid; place-items: center;
+    text-align: center;
+    font-size: 0.72rem; line-height: 1.3;
+    color: var(--faint);
+    padding: 0.4rem;
+  }
+  @media (max-width: 30rem) {
+    .avatar, .avatar-ph { width: 68px; height: 68px; font-size: 0.6rem; }
+  }
+
+  /* photos in content */
+  figure.shot { margin: 1.15rem 0 0; }
+  figure.shot img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid var(--honey-ln);
+  }
+  figure.shot .shot-ph {
+    display: grid; place-items: center;
+    min-height: 9rem;
+    border: 1px dashed var(--honey-ln);
+    border-radius: 8px;
+    color: var(--faint);
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 1.25rem;
+  }
+  figure.shot figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.88rem;
+    color: var(--faint);
+  }
+
+  /* nav with a sliding underline */
+  nav {
+    display: flex; flex-wrap: wrap; gap: 0 1.75rem;
+    margin-bottom: 3.25rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  nav a {
+    position: relative;
+    color: var(--faint);
+    padding: 0.3rem 0 0.85rem;
+    font-size: 0.98rem;
+    font-weight: 500;
+    transition: color .18s ease;
+  }
+  nav a::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -1px;
+    height: 2px;
+    background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .26s cubic-bezier(.4,0,.2,1);
+  }
+  nav a[aria-current="page"] { color: var(--ink); font-weight: 600; }
+  nav a[aria-current="page"]::after { transform: scaleX(1); }
+  nav a:hover { color: var(--ink); text-decoration: none; }
+
+  h2 {
+    font-size: 1.02rem;
+    font-weight: 600;
+    letter-spacing: -0.006em;
+    margin: 2.9rem 0 0.8rem;
+  }
+  h2:first-child { margin-top: 0; }
+
+  p { margin: 0 0 1.05rem; }
+  p:last-child { margin-bottom: 0; }
+
+  .lead { font-size: 1.18rem; line-height: 1.6; letter-spacing: -0.011em; }
+
+  .panel { display: none; }
+  .panel.on { display: block; animation: rise .34s cubic-bezier(.16,1,.3,1) both; }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(9px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  ul.bare { list-style: none; padding: 0; margin: 0; }
+  ul.bare li { margin-bottom: 0.34rem; }
+  .skills li { color: var(--soft); }
+  .skills li b { color: var(--ink); font-weight: 600; }
+
+  .skillset { margin: 0; display: flex; flex-direction: column; gap: 0.95rem; }
+  .skillset > div {
+    display: grid;
+    grid-template-columns: 11rem 1fr;
+    gap: 0 1.25rem;
+    align-items: baseline;
+  }
+  .skillset dt { font-weight: 600; color: var(--ink); font-size: 0.98rem; }
+  .skillset dd { margin: 0; color: var(--soft); }
+  @media (max-width: 34rem) {
+    .skillset > div { grid-template-columns: 1fr; gap: 0.1rem; }
+  }
+
+  /* ── the vape block ── */
+  .vape { margin: 2.9rem 0 0; }
+  .vape h2 {
+    margin: 0 0 0.6rem;
+    font-size: 1.3rem;
+    font-weight: 650;
+    letter-spacing: -0.017em;
+    color: var(--honey);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .vape p {
+    font-size: 1.11rem;
+    line-height: 1.62;
+    color: var(--ink);
+    margin: 0;
+  }
+  .vape a { color: var(--honey); font-weight: 500; text-decoration: underline;
+            text-decoration-color: var(--honey-ln); text-underline-offset: 3px; }
+  .vape a:hover { text-decoration-color: currentColor; }
+
+  .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--live);
+    box-shadow: 0 0 0 0 var(--live);
+    animation: ping 2.4s ease-out infinite;
+    flex: none;
+  }
+  @keyframes ping {
+    0%   { box-shadow: 0 0 0 0 rgba(78,201,138,.55); }
+    70%  { box-shadow: 0 0 0 7px rgba(78,201,138,0); }
+    100% { box-shadow: 0 0 0 0 rgba(78,201,138,0); }
+  }
+
+  /* ── entries ── */
+  .entry {
+    padding: 1.6rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .entry:first-child { padding-top: 0.15rem; }
+  .entry:last-of-type { border-bottom: none; }
+  .entry h3 {
+    font-size: 1.09rem; font-weight: 600;
+    letter-spacing: -0.008em; margin: 0 0 0.2rem;
+  }
+  .entry .when { color: var(--faint); font-size: 0.94rem; margin: 0 0 0.6rem; }
+  .entry p { margin: 0 0 0.6rem; color: var(--soft); }
+  .entry .row { display: flex; flex-wrap: wrap; gap: 0 1.15rem; font-size: 0.94rem; }
+
+  .cite { color: var(--soft); }
+  .cite b { color: var(--ink); font-weight: 600; }
+
+  .contact { display: flex; flex-direction: column; gap: 0.7rem; }
+  .contact div { display: flex; flex-wrap: wrap; gap: 0 0.75rem; align-items: baseline; }
+  .contact span { color: var(--faint); min-width: 5.5rem; font-size: 0.94rem; }
+
+  .pdf {
+    width: 100%;
+    height: min(85vh, 50rem);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    background: var(--bg);
+    margin-top: 0.6rem;
+  }
+
+  .todo { color: var(--mark); border-bottom: 1px dashed currentColor; }
+  code { font-family: var(--mono); font-size: 0.9em; }
+
+  footer {
+    margin-top: 4rem; padding-top: 1.2rem;
+    border-top: 1px solid var(--rule);
+    color: var(--faint); font-size: 0.94rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+
+<div class="page">
+
+  <header>
+    <div class="id">
+      <div>
+        <h1>Oscar Jakacki</h1>
+        <p class="tagline">Hardware/embedded engineering</p>
+      </div>
+      <img class="avatar" src="me.jpg" alt="Oscar Jakacki"
+           data-ph="me.jpg" data-shape="avatar">
+    </div>
+  </header>
+
+  <nav>
+    <a href="#home"       data-tab="home">Home</a>
+    <a href="#resume"     data-tab="resume">Résumé</a>
+    <a href="#experience" data-tab="experience">Experience</a>
+    <a href="#projects"   data-tab="projects">Projects</a>
+    <a href="#publications" data-tab="publications">Publications</a>
+    <a href="#socials"    data-tab="socials">Socials</a>
+  </nav>
+
+  <!-- ── HOME ─────────────────────────────────────────── -->
+  <section class="panel" id="home" tabindex="-1">
+    <p class="lead">
+      I'm a junior at Northwestern studying Electrical Engineering. I work
+      mostly with FPGAs, microcontrollers, and the circuits around them.
+    </p>
+    <p>Outside of work, I like to beekeep, bike, and hike in nature!</p>
+
+    <div class="vape">
+      <h2><span class="dot" aria-hidden="true"></span>This site also runs on a vape</h2>
+      <p>
+        I pulled a microcontroller (PY32F030) out of a disposable vape and got
+        it to serve a copy of this page. It has 32 KB of flash, 4 KB of RAM,
+        and no network hardware. The traffic goes through the chip's SWD port.
+        <a href="https://oscarszero.tail35f675.ts.net">See it running</a>, or
+        read how it works in
+        <a href="#projects" data-tab="projects">Projects</a>.
+      </p>
+      <figure class="shot">
+        <img src="vape.jpg"
+             alt="The PY32F030 board from a disposable vape, wired to a Raspberry Pi over SWD"
+             data-ph="vape.jpg" data-shape="shot">
+        <figcaption>The chip, wired to a Raspberry Pi over SWD.</figcaption>
+      </figure>
+    </div>
+
+  </section>
+
+  <!-- ── EXPERIENCE ───────────────────────────────────── -->
+  <section class="panel" id="experience" tabindex="-1">
+    <div class="entry">
+      <h3>Silicon/RF Intern · Stealth startup</h3>
+      <p class="when">San Diego · Jun 2026 - Sept 2026</p>
+      <p>
+        RF and embedded work for an IoT hardware startup. Built Python tooling
+        for hardware bring-up testing, including a GPS post-processing pipeline
+        with signal filtering that brought location accuracy to within 20 m.
+        Wrote a spectrum analyzer in software to run on our own hardware, used
+        for interference analysis in place of dedicated bench equipment. Also
+        worked on FPGA configuration and Linux test infrastructure.
+      </p>
+    </div>
+
+    <div class="entry">
+      <h3>Undergraduate Researcher · Embodied Systems Lab</h3>
+      <p class="when">Northwestern · Mar 2026 - present</p>
+      <p>
+        A biosignal acquisition system built into smart glasses, detecting
+        heart rate and emotional state from wearable sensors. I designed the
+        op-amp signal conditioning circuits, built the conditioning PCB from
+        scratch, and work on the embedded C firmware running on an XIAO ESP32.
+      </p>
+    </div>
+
+    <div class="entry">
+      <h3>Electrical Team Member · Northwestern Solar Car</h3>
+      <p class="when">Evanston · Jan 2026 - present</p>
+      <p>
+        Redesigned the battery management system with a teammate, moving to a
+        passive cell balancing architecture. Measurably improved cell voltage
+        uniformity and system efficiency.
+      </p>
+    </div>
+
+    <div class="entry">
+      <h3>Research Assistant · Querrey Simpson Institute for Bioelectronics</h3>
+      <p class="when">Northwestern · Sep 2025 - Jan 2026</p>
+      <p>
+        Worked on wearable devices that collect vitals from newly transplanted
+        tissue in infants and adults. Improved PCB and enclosure designs in
+        Altium and Fusion 360, and collected and processed sample vitals data.
+      </p>
+    </div>
+
+    <div class="entry">
+      <h3>Undergraduate Researcher · Pleshko Lab, Temple University</h3>
+      <p class="when">Philadelphia · Dec 2024 - Sep 2025</p>
+      <p>
+        Used O-PTIR spectroscopy to study bone composition, measuring how
+        sample orientation affects molecular vibration detection so O-PTIR data
+        can be compared against conventional FTIR.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── PROJECTS ─────────────────────────────────────── -->
+  <section class="panel" id="projects" tabindex="-1">
+    <div class="entry">
+      <h3>Music genre classifier on an FPGA</h3>
+      <p class="when">Verilog · Spartan-7 · Vivado</p>
+      <p>
+        Audio goes in a line-in, the genre comes out on an OLED. A 1024-point
+        FFT, a 26-band mel filterbank and a quantised neural net, all in
+        hand-written Verilog with no processor, no OS and no vendor IP. Fixed
+        point throughout, so every stage needed its own number format. 86.3% on
+        held-out samples, 67% on real music played into the board.
+      </p>
+      <p>
+        The hardest bug wasn't in the design. The board has 12 MHz and 100 MHz
+        oscillators, and I'd mapped the wrong one in the constraints file, so
+        the real sample rate was 8× off and every frequency landed in the wrong
+        band. Simulation never caught it, because a testbench invents its own
+        clock, and timing never caught it either.
+      </p>
+      <p class="row">
+        <a href="https://github.com/jakackioscar/fpga-music-classifier">GitHub</a>
+      </p>
+    </div>
+
+    <div class="entry">
+      <h3>Web server on a disposable vape</h3>
+      <p class="when">C · Cortex-M0+ · OpenOCD · 32 KB flash</p>
+      <p>
+        A PY32F030 pulled out of a vape, serving HTTP with no network hardware.
+        A uIP stack speaking SLIP over ARM semihosting, tunnelled through SWD
+        bit-banged on a Raspberry Pi's GPIO with no debug probe.
+      </p>
+      <p>
+        It didn't work for two days. OpenOCD was silently discarding every
+        incoming packet unless the chip happened to already be blocked in a
+        read, so traffic went out and nothing ever came back. Patching OpenOCD
+        to buffer that data instead of dropping it fixed it.
+      </p>
+      <p class="row">
+        <a href="https://oscarszero.tail35f675.ts.net">Live</a>
+        <a href="#"><span class="todo">[repo]</span></a>
+      </p>
+    </div>
+
+    <div class="entry">
+      <h3>Attenda Health (Grand Prize - Second Place Overall)</h3>
+      <p class="when">WildHacks 2026 · Next.js, React, Supabase</p>
+      <p>
+        I pitched this one to my team after volunteering at a hospital, where
+        every patient request funnelled through a single central desk. Nurses
+        had to walk back for assignments, urgent medical needs sat in the same
+        queue as complaints about the food, and patients who didn't speak
+        English waited on a translator before anyone could help them.
+      </p>
+      <p>
+        We built a mobile app that puts the call bell in the nurse's pocket
+        instead. Voice requests are transcribed and translated automatically, a
+        bed map highlights in sync with the queue so you can see who's asking
+        from where, and an "On the Way" button signals back to the patient's
+        room. Repeated calls about the same thing collapse into one card with a
+        counter rather than spamming the list.
+      </p>
+      <p class="row">
+        <a href="https://devpost.com/software/chud-hacks">Devpost</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ── PUBLICATIONS ─────────────────────────────────── -->
+  <section class="panel" id="publications" tabindex="-1">
+
+    <!-- ===================================================================
+         EMBARGOED - DO NOT UNCOMMENT YET.
+
+         ISWC 2026 submission #1214 is CONDITIONALLY accepted. The program
+         chairs' email states: "please do not publicly announce the paper as
+         accepted until the final camera-ready version has been reviewed and
+         formally approved."
+
+         Uncomment only after the corresponding author confirms camera-ready
+         has been formally approved. Fill in the full author list in order.
+    ====================================================================== -->
+    <!--
+    <p class="cite">
+      <b>GlassTENG: Self-Powered Triboelectric Nanogenerator Sensing of Pulse,
+      Jaw, and Facial Activity from Everyday Glasses</b><br>
+      Dave, R. N., Jakacki, O., [remaining authors in order] (2026).
+      Proceedings of the 2026 International Symposium on Wearable Computers
+      (ISWC '26). Second author.
+    </p>
+    -->
+
+    <p class="cite">
+      <b>Characterization of O-PTIR Orientation Effects on Bone</b><br>
+      Jakacki, O., Kust, S., &amp; Pleshko, N. (2025).
+      Temple University, Department of Bioengineering.
+      Poster presented at the Sci-X Conference, October 2025. First author.
+      <a href="https://scix2025.eventscribe.net/fsPopup.asp?PresentationID=1676442&amp;mode=presInfo">Abstract</a>
+    </p>
+  </section>
+
+  <!-- ── RÉSUMÉ ───────────────────────────────────────── -->
+  <section class="panel" id="resume" tabindex="-1">
+    <p><a href="resume.pdf" download>Download PDF</a></p>
+    <object class="pdf" data="resume.pdf" type="application/pdf">
+      <p style="padding:1.35rem;color:var(--soft)">
+        Put <code>resume.pdf</code> next to <code>index.html</code> and it shows up here.
+      </p>
+    </object>
+
+    <h2>Skills</h2>
+    <dl class="skillset">
+      <div>
+        <dt>Languages</dt>
+        <dd>Verilog, C, Python</dd>
+      </div>
+      <div>
+        <dt>Digital design</dt>
+        <dd>RTL design and simulation, FPGA bring-up, Vivado</dd>
+      </div>
+      <div>
+        <dt>Hardware</dt>
+        <dd>PCB design (Altium, KiCad, Fusion 360), op-amp signal conditioning,
+            soldering and board rework</dd>
+      </div>
+      <div>
+        <dt>Test &amp; measurement</dt>
+        <dd>RF equipment, oscilloscopes and logic analyzers, custom test tooling
+            in Python</dd>
+      </div>
+      <div>
+        <dt>Signal processing</dt>
+        <dd>FFT, digital filtering, fixed-point math</dd>
+      </div>
+      <div>
+        <dt>Platforms</dt>
+        <dd>ESP32, ARM Cortex-M, Spartan-7 FPGA, Raspberry Pi</dd>
+      </div>
+      <div>
+        <dt>Other</dt>
+        <dd>Git, Linux</dd>
+      </div>
+    </dl>
+  </section>
+
+  <!-- ── SOCIALS ──────────────────────────────────────── -->
+  <section class="panel" id="socials" tabindex="-1">
+    <div class="contact">
+      <div><span>School</span><a href="mailto:oscarjakacki2028@u.northwestern.edu">oscarjakacki2028@u.northwestern.edu</a></div>
+      <div><span>Email</span><a href="mailto:oscarjakacki927@gmail.com">oscarjakacki927@gmail.com</a></div>
+      <div><span>GitHub</span><a href="https://github.com/jakackioscar">github.com/jakackioscar</a></div>
+      <div><span>LinkedIn</span><a href="https://www.linkedin.com/in/oscar-jakacki/">linkedin.com/in/oscar-jakacki</a></div>
+    </div>
+  </section>
+
+  <footer>Oscar Jakacki</footer>
+
+</div>
+
+<script>
+  // Show a labelled placeholder wherever a photo hasn't been added yet.
+  (function () {
+    Array.prototype.slice.call(document.querySelectorAll('img[data-ph]'))
+      .forEach(function (img) {
+        img.addEventListener('error', function () {
+          var ph = document.createElement('div');
+          if (img.dataset.shape === 'avatar') {
+            ph.className = 'avatar-ph';
+            ph.textContent = 'add ' + img.dataset.ph;
+          } else {
+            ph.className = 'shot-ph';
+            ph.textContent = 'add ' + img.dataset.ph + ' next to index.html';
+          }
+          img.replaceWith(ph);
+        });
+      });
+  })();
+
+  (function () {
+    var tabs    = Array.prototype.slice.call(document.querySelectorAll('[data-tab]'));
+    var panels  = Array.prototype.slice.call(document.querySelectorAll('.panel'));
+    var navTabs = Array.prototype.slice.call(document.querySelectorAll('nav [data-tab]'));
+
+    function show(name, push) {
+      if (!document.getElementById(name)) name = 'home';
+      panels.forEach(function (p) { p.classList.toggle('on', p.id === name); });
+      navTabs.forEach(function (t) {
+        if (t.dataset.tab === name) t.setAttribute('aria-current', 'page');
+        else t.removeAttribute('aria-current');
+      });
+      if (push && history.replaceState) history.replaceState(null, '', '#' + name);
+      window.scrollTo(0, 0);
+    }
+
+    tabs.forEach(function (t) {
+      t.addEventListener('click', function (e) {
+        e.preventDefault();
+        show(t.dataset.tab, true);
+      });
+    });
+
+    window.addEventListener('hashchange', function () {
+      show((location.hash || '#home').slice(1), false);
+    });
+
+    show((location.hash || '#home').slice(1), false);
+  })();
+</script>
