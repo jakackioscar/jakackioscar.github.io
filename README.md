@@ -4,7 +4,7 @@ My personal site. There are two copies of it. This one lives on GitHub Pages.
 The other one is served by a microcontroller I pulled out of a disposable vape.
 
 - <https://jakackioscar.github.io>
-- <https://oscarszero.tail35f675.ts.net> — the vape, when it's plugged in
+- <https://oscarszero.tail35f675.ts.net> - the vape, when it's plugged in
 
 ## The vape
 
@@ -19,7 +19,7 @@ the I/O on the host, writes the answer back into a register, and lets it carry
 on. Most people use it so `printf` works without a UART. It goes both ways
 though, so you can push data in as well as read it out.
 
-That gets you a pipe of bytes. SLIP turns the pipe into packets — it's the
+That gets you a pipe of bytes. SLIP turns the pipe into packets - it's the
 protocol dial-up modems used, and the whole spec is "end each packet with 0xC0,
 escape any 0xC0 in the data." A Python script decodes that onto a tun
 interface, and from there the Pi's kernel routes to the chip like it's any

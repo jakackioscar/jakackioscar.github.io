@@ -245,6 +245,11 @@
   .cite { color: var(--soft); }
   .cite b { color: var(--ink); font-weight: 600; }
 
+  .edu { display: flex; flex-direction: column; gap: 0.85rem; }
+  .edu li { margin: 0; }
+  .edu b { font-weight: 600; }
+  .edu span { display: block; color: var(--faint); font-size: 0.94rem; }
+
   .contact { display: flex; flex-direction: column; gap: 0.7rem; }
   .contact div { display: flex; flex-wrap: wrap; gap: 0 0.75rem; align-items: baseline; }
   .contact span { color: var(--faint); min-width: 5.5rem; font-size: 0.94rem; }
@@ -482,6 +487,19 @@
 
   <!-- RESUME -->
   <section class="panel" id="resume" tabindex="-1">
+    <h2>Education</h2>
+    <ul class="bare edu">
+      <li>
+        <b>Northwestern University</b>, Evanston, IL
+        <span>Electrical Engineering, Sept 2025 - Expected Jun 2028</span>
+      </li>
+      <li>
+        <b>Temple University</b>, Philadelphia, PA
+        <span>Bioengineering, Aug 2024 - May 2025</span>
+      </li>
+    </ul>
+
+    <h2>Resume</h2>
     <p><a href="resume.pdf" download>Download PDF</a></p>
     <object class="pdf" data="resume.pdf" type="application/pdf">
       <p style="padding:1.35rem;color:var(--soft)">
