@@ -1,44 +1,40 @@
 # jakackioscar.github.io
 
-Source for my personal site.
+My personal site. There are two copies of it. This one lives on GitHub Pages.
+The other one is served by a microcontroller I pulled out of a disposable vape.
 
-There are two copies of it. This one is served by GitHub Pages. The other is
-served by a microcontroller I pulled out of a disposable vape.
-
-**Live:**
-- <https://jakackioscar.github.io> — this copy
+- <https://jakackioscar.github.io>
 - <https://oscarszero.tail35f675.ts.net> — the vape, when it's plugged in
-
----
 
 ## The vape
 
-The chip is a **PY32F030**, a Cortex-M0+ with 32 KB of flash and 4 KB of RAM,
-salvaged from a disposable vape. It has no Ethernet, no WiFi, and no UART
-wired up. The only connection to it is the debug port, so that's what carries
-the IP traffic.
+The chip is a PY32F030, a Cortex-M0+ with 32 KB of flash and 4 KB of RAM. No
+ethernet, no wifi, no serial port hooked up. The only wire going to it is the
+debug port, so that's what the web traffic goes through.
 
-**How the traffic gets in and out:**
+A Raspberry Pi Zero bit-bangs SWD on two GPIO pins, no debug probe involved.
+OpenOCD handles semihosting, which is basically syscalls for microcontrollers:
+the chip hits a breakpoint instruction, the debugger reads its registers, does
+the I/O on the host, writes the answer back into a register, and lets it carry
+on. Most people use it so `printf` works without a UART. It goes both ways
+though, so you can push data in as well as read it out.
 
-1. A Raspberry Pi Zero W bit-bangs **SWD** on two GPIO pins — no debug probe
-2. **Semihosting** turns the debug connection into a byte pipe. The chip
-   executes a breakpoint instruction, OpenOCD reads its registers, performs
-   the I/O on the host, writes the result back, and resumes it
-3. **SLIP** frames those bytes into IP packets — the same protocol dial-up
-   modems used
-4. A Python bridge decodes SLIP onto a **tun0** interface, so the Pi's kernel
-   can route to the chip like any other host
-5. **uIP** on the chip handles TCP/IP and serves the page
+That gets you a pipe of bytes. SLIP turns the pipe into packets — it's the
+protocol dial-up modems used, and the whole spec is "end each packet with 0xC0,
+escape any 0xC0 in the data." A Python script decodes that onto a tun
+interface, and from there the Pi's kernel routes to the chip like it's any
+other machine on the network. uIP on the chip does TCP and serves the page.
 
-**nginx caches the result.** The chip serves one connection at a time and takes
-about 12 seconds per page, so exposing it directly would be a bad idea. Cached
-responses come back in ~17 ms, and the chip only gets hit when the cache
-expires.
+nginx sits in front of all this, because the chip handles one connection at a
+time and takes about 12 seconds per page. Through the cache it's 17 ms.
 
-### The bug
+## The part that took two days
 
-It didn't work at first. OpenOCD's semihosting-over-TCP was discarding all
-inbound data whenever the target wasn't *already* blocked in a `SYS_READ`:
+None of it worked at first. Packets went out, nothing came back, and OpenOCD
+would stop responding to anything at all.
+
+It turned out OpenOCD throws away incoming data on a semihosting connection
+unless the chip is *already* sitting in a read:
 
 ```c
 if (!connection->input_pending) {
@@ -47,51 +43,46 @@ if (!connection->input_pending) {
     int bytes_read = connection_read(connection, buf, buf_len);
 ```
 
-That's a fair assumption for an interactive console, where input arriving while
-nothing is reading really is junk. It's fatal for a packet stream — every
-packet sent while the chip was executing got binned, and the chip then blocked
-forever waiting for data that no longer existed.
+Which is a completely reasonable thing to do if you're using this as a console.
+If someone types while the program isn't reading, that input is junk, so bin
+it. It is not reasonable if you're trying to push packets through. Every packet
+that arrived while the chip was busy got dropped, and then the chip would go
+into a read and block forever waiting for data that had already been deleted.
+Since that's a blocking socket read, OpenOCD's whole event loop hung with it,
+which is why even telnet went dead.
 
-I patched OpenOCD to buffer that data instead of dropping it: the input handler
-appends to a 16 KB ring, and `semihosting_redirect_read()` drains that buffer
-before falling back to a blocking socket read.
+I patched OpenOCD to hold that data in a 16 KB buffer instead of dropping it,
+and to drain the buffer before falling back to a blocking read.
 
-### Why it's slow
+## Why it's slow
 
-`UIP_BUFSIZE` is 384 bytes, so the TCP MSS is 344. A 6.6 KB page is roughly 19
-segments, uIP is stop-and-wait, and the round-trip time over semihosting is
-~600 ms. It's bound by the number of round trips, not by bandwidth — raising
-the SWD clock from 1 MHz to 4 MHz changed the page load time by nothing.
+`UIP_BUFSIZE` is 384, which puts the TCP MSS at 344 bytes. The page is about
+6.6 KB, so that's ~19 segments, and uIP sends one and waits for the ack before
+sending the next. Round trip over semihosting is roughly 600 ms. Multiply it
+out and you get the 12 seconds.
 
-### Credit
+So it's the number of round trips, not bandwidth. I confirmed that by taking
+the SWD clock from 1 MHz to 4 MHz, which made no difference whatsoever and
+mostly just made it unstable.
 
-The original idea and the `semihost-ip` firmware are
-[BogdanTheGeek's](https://github.com/BogdanTheGeek/semihost-ip). His version
-drives the chip with pyocd and a hardware debug probe. Mine runs on
-bit-banged SWD from a Pi Zero with OpenOCD, which is what turned up the bug
-above.
+## Credit
 
----
+The firmware and the original idea are
+[BogdanTheGeek's](https://github.com/BogdanTheGeek/semihost-ip). He drove his
+chip with pyocd and a real debug probe. Mine runs off bit-banged SWD on a Pi
+with OpenOCD, which is how I ended up in the weeds above.
 
-## Files
+## Working on it
 
-| | |
-|---|---|
-| `index.html` | The site. Single file, no build step, no dependencies. |
-| `make-vape-copy.py` | Generates the vape's copy from `index.html`. |
-| `vape-index.html` | That generated copy. Photos and the PDF stripped out. |
-| `resume.pdf`, `me.jpg`, `vape.jpg` | Assets. The page degrades gracefully without them. |
+`index.html` is the whole site. One file, no build step, nothing to install.
 
-## Updating
-
-Edit `index.html`, then push. GitHub Pages picks it up in a minute or so.
-
-To update the vape as well:
+The vape can't fit the photos or the PDF, so `make-vape-copy.py` strips those
+out and writes `vape-index.html`. Run it after changing anything:
 
 ```sh
 python make-vape-copy.py
 ```
 
-Then copy `vape-index.html` to `lib/uip/fs/index.html~` in the firmware tree,
-rebuild, and reflash. Without that step the two copies drift apart, and the
-chip keeps serving whatever was last written to it.
+Then copy that over `lib/uip/fs/index.html~` in the firmware tree, rebuild, and
+flash. Skip it and the chip just keeps serving whatever was on it last time,
+which is easy to forget about for a while.
