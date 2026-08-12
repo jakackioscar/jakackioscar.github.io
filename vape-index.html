@@ -259,9 +259,10 @@
     <div class="vape">
       <h2><span class="dot" aria-hidden="true"></span>This site also runs on a vape</h2>
       <p>
-        I pulled a microcontroller (PY32F030) out of a disposable vape and got
-        it to serve a copy of this page. It has 32 KB of flash, 4 KB of RAM,
-        and no network hardware. The traffic goes through the chip's SWD port.
+        I found a microcontroller (PY32F030) inside a disposable vape, so I
+        designed a breakout board around the same chip and got it serving a
+        copy of this page. It has 32 KB of flash, 4 KB of RAM, and no network
+        hardware. The traffic goes through the chip's SWD port.
         <a href="https://oscarszero.tail35f675.ts.net">See it running</a>, or
         read how it works in
         <a href="#projects" data-tab="projects">Projects</a>.
@@ -355,9 +356,14 @@
       <h3>Web server on a disposable vape</h3>
       <p class="when">C, Cortex-M0+, OpenOCD, 32 KB flash</p>
       <p>
-        A PY32F030 pulled out of a vape, serving HTTP with no network hardware.
-        A uIP stack speaking SLIP over ARM semihosting, tunnelled through SWD
-        bit-banged on a Raspberry Pi's GPIO with no debug probe.
+        A PY32F030 from a disposable vape, serving HTTP with no network
+        hardware. A uIP stack speaking SLIP over ARM semihosting, tunnelled
+        through SWD bit-banged on a Raspberry Pi's GPIO with no debug probe.
+      </p>
+      <p>
+        The pads on the vape's own board wouldn't take solder reliably, so I
+        designed a breakout PCB around the same chip and had it fabbed at
+        JLCPCB. That board is what's running the server.
       </p>
       <p>
         It didn't work for two days. OpenOCD was silently discarding every
